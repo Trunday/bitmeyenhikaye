@@ -1,23 +1,28 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+
+interface Story {
+    _id: string;
+    title: string;
+}
 
 const Home: React.FC = () => {
-    // Örnek hikaye listesi
-    const stories = [
-        { id: 1, title: "Kayıp Prens" },
-        { id: 2, title: "Gizemli Orman" },
-        { id: 3, title: "Sihirli Şato" },
-        { id: 4, title: "Karanlık Mağara" },
-        { id: 5, title: "Denizler Altında" },
-        { id: 6, title: "Uzay Macerası" },
-    ];
+    const [stories, setStories] = useState<Story[]>([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/api/stories") // TODO 1: API URL'ini güncelle
+            .then((response) => setStories(response.data))
+            .catch((error) => console.error("Hikaye verisi alınamadı:", error));
+    }, []);
 
     return (
         <div>
             <h1>Bitmeyen Hikaye</h1>
             <ul>
                 {stories.map((story) => (
-                    <li key={story.id}>
-                        <Link to={`/story/${story.id}`}>{story.title}</Link>
+                    <li key={story._id}>
+                        <Link to={`/story/${story._id}`}>{story.title}</Link>
                     </li>
                 ))}
             </ul>
