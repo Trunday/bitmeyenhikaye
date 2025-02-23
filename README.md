@@ -4,12 +4,12 @@
 
 ## İçindekiler
 
-* [Özellikler](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#%C3%B6zellikler)
-* [Kullanılan Teknolojiler](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#kullan%C4%B1lan-teknolojiler)
-* [Kurulum](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#kurulum)
-* [Kullanım](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#kullan%C4%B1m)
-* [Geliştirme ve API](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#geli%C5%9Ftirme-ve-api)
-* [Lisans](https://chatgpt.com/c/67b50651-2760-8011-85cd-cda7157aae2a#lisans)
+* [Özellikler]()
+* [Kullanılan Teknolojiler]()
+* [Kurulum]()
+* [Kullanım]()
+* [Geliştirme ve API]()
+* [Lisans]()
 
 ## Özellikler
 
