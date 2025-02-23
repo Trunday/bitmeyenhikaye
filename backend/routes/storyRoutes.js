@@ -15,10 +15,26 @@ router.get("/", async (req, res) => {
 
 // Yeni bir hikaye ekle
 router.post("/", async (req, res) => {
-  const { title, content, choices } = req.body;
-
   try {
-    const newStory = new Story({ title, content, choices });
+    // Gelen veriyi al
+    const { title, content, choices } = req.body;
+
+    // nextStoryId değerlerini ObjectId'ye çevir
+    const updatedChoices = choices.map((choice) => ({
+      text: choice.text,
+      nextStoryId: mongoose.Types.ObjectId.isValid(choice.nextStoryId)
+        ? new mongoose.Types.ObjectId(choice.nextStoryId)
+        : null, // Eğer geçerli bir ObjectId değilse null yap
+    }));
+
+    // Yeni hikaye oluştur
+    const newStory = new Story({
+      title,
+      content,
+      choices: updatedChoices,
+    });
+
+    // Veritabanına kaydet
     await newStory.save();
     res.status(201).json(newStory);
   } catch (error) {
