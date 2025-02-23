@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Story from "./pages/Story";
+import HomePage from "./pages/HomePage";
+import StoryPage from "./pages/StoryPage";
 
-const App: React.FC = () => {
+function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/story/:id" element={<Story />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/story/:id" element={<StoryPage />} />
       </Routes>
     </Router>
   );
-};
+}
 
 export default App;
