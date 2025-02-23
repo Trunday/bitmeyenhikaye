@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import Story from "../models/Story.js";
 
 const router = express.Router();
