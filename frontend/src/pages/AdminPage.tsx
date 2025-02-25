@@ -1,9 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+// Hikaye veri tipi
+interface Story {
+    _id: string;
+    title: string;
+    content: string;
+    choices: { text: string; nextStoryId: string }[];
+}
 
 const AdminPage = () => {
+    const [tab, setTab] = useState<"add" | "edit">("add"); // Sekme yönetimi
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [choices, setChoices] = useState([{ text: "", nextStoryId: "" }]);
+    const [stories, setStories] = useState<Story[]>([]);
+    const [selectedStory, setSelectedStory] = useState<Story | null>(null);
+
+    // Hikayeleri çek
+    useEffect(() => {
+        fetchStories();
+    }, []);
+
+    const fetchStories = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/api/stories");
+            const data = await response.json();
+            setStories(data);
+        } catch (error) {
+            console.error("Hikayeleri yüklerken hata oluştu:", error);
+        }
+    };
 
     const handleAddChoice = () => {
         setChoices([...choices, { text: "", nextStoryId: "" }]);
@@ -30,55 +56,125 @@ const AdminPage = () => {
             setTitle("");
             setContent("");
             setChoices([{ text: "", nextStoryId: "" }]);
+            fetchStories();
         } else {
             alert("Hata oluştu!");
         }
     };
 
+    const handleEditClick = (story: Story) => {
+        setSelectedStory(story);
+        setTab("edit");
+    };
+
+    const handleUpdate = async () => {
+        if (!selectedStory) return;
+
+        const response = await fetch(`http://localhost:5000/api/stories/${selectedStory._id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(selectedStory),
+        });
+
+        if (response.ok) {
+            alert("Hikaye güncellendi!");
+            fetchStories();
+            setSelectedStory(null);
+            setTab("add");
+        } else {
+            alert("Güncelleme başarısız!");
+        }
+    };
+
     return (
         <div>
-            <h2>Hikaye Ekle</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Başlık"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-                <textarea
-                    placeholder="Hikaye İçeriği"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    required
-                />
-                <h4>Seçenekler:</h4>
-                {choices.map((choice, index) => (
-                    <div key={index}>
+            <h1>Admin Paneli</h1>
+
+            {/* Sekme butonları */}
+            <div>
+                <button onClick={() => setTab("add")}>Yeni Hikaye Ekle</button>
+                <button onClick={() => setTab("edit")}>Hikayeleri Düzenle</button>
+            </div>
+
+            {/* Yeni Hikaye Ekleme Bölümü */}
+            {tab === "add" && (
+                <div>
+                    <h2>Yeni Hikaye Ekle</h2>
+                    <form onSubmit={handleSubmit}>
                         <input
                             type="text"
-                            placeholder="Seçenek Metni"
-                            value={choice.text}
-                            onChange={(e) =>
-                                handleChoiceChange(index, "text", e.target.value)
-                            }
+                            placeholder="Başlık"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             required
                         />
-                        <input
-                            type="text"
-                            placeholder="Sonraki Hikaye ID"
-                            value={choice.nextStoryId}
-                            onChange={(e) =>
-                                handleChoiceChange(index, "nextStoryId", e.target.value)
-                            }
+                        <textarea
+                            placeholder="Hikaye İçeriği"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
+                            required
                         />
-                    </div>
-                ))}
-                <button type="button" onClick={handleAddChoice}>
-                    Yeni Seçenek Ekle
-                </button>
-                <button type="submit">Hikayeyi Kaydet</button>
-            </form>
+                        <h4>Seçenekler:</h4>
+                        {choices.map((choice, index) => (
+                            <div key={index}>
+                                <input
+                                    type="text"
+                                    placeholder="Seçenek Metni"
+                                    value={choice.text}
+                                    onChange={(e) => handleChoiceChange(index, "text", e.target.value)}
+                                    required
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Sonraki Hikaye ID"
+                                    value={choice.nextStoryId}
+                                    onChange={(e) => handleChoiceChange(index, "nextStoryId", e.target.value)}
+                                />
+                            </div>
+                        ))}
+                        <button type="button" onClick={handleAddChoice}>
+                            Yeni Seçenek Ekle
+                        </button>
+                        <button type="submit">Hikayeyi Kaydet</button>
+                    </form>
+                </div>
+            )}
+
+            {/* Hikaye Düzenleme Bölümü */}
+            {tab === "edit" && (
+                <div>
+                    <h2>Hikayeleri Düzenle</h2>
+                    {stories.length > 0 ? (
+                        <ul>
+                            {stories.map((story) => (
+                                <li key={story._id}>
+                                    {story.title}
+                                    <button onClick={() => handleEditClick(story)}>Düzenle</button>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>Henüz hikaye yok.</p>
+                    )}
+
+                    {/* Düzenleme Formu */}
+                    {selectedStory && (
+                        <div>
+                            <h3>Hikaye Güncelle</h3>
+                            <input
+                                type="text"
+                                value={selectedStory.title}
+                                onChange={(e) => setSelectedStory({ ...selectedStory, title: e.target.value })}
+                            />
+                            <textarea
+                                value={selectedStory.content}
+                                onChange={(e) => setSelectedStory({ ...selectedStory, content: e.target.value })}
+                            />
+                            <button onClick={handleUpdate}>Güncelle</button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
