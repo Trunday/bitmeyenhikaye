@@ -1,7 +1,7 @@
 import User from "../../models/User.js";
 
-export default function registerPost() {
-  async (req, res) => {
+export default function registerPost(req, res) {
+  (async () => {
     try {
       const { username, email, password, role } = req.body;
 
@@ -16,5 +16,5 @@ export default function registerPost() {
     } catch (error) {
       res.status(500).json({ message: "Sunucu hatası" });
     }
-  };
+  })();
 }

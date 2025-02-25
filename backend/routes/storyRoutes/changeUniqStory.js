@@ -1,7 +1,7 @@
-import Story from "../../models/Story";
+import Story from "../../models/Story.js";
 
-export default function changeUniqStory() {
-  async (req, res) => {
+export default function changeUniqStory(req, res) {
+  (async () => {
     try {
       const { title, content, choices } = req.body;
       const updatedStory = await Story.findByIdAndUpdate(
@@ -20,5 +20,5 @@ export default function changeUniqStory() {
         .status(500)
         .json({ message: "Hikaye güncellenirken hata oluştu", error });
     }
-  };
+  })();
 }

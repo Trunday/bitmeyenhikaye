@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import Story from "../../models/Story";
+import Story from "../../models/Story.js";
 
-export default function StoryHomePost() {
-  async (req, res) => {
+export default function StoryHomePost(req, res) {
+  (async () => {
     try {
       // Gelen veriyi al
       const { title, content, choices } = req.body;
@@ -28,5 +28,5 @@ export default function StoryHomePost() {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
+  })();
 }

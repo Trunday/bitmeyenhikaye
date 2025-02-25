@@ -1,9 +1,9 @@
-import User from "../../models/User";
+import User from "../../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export default function loginPost() {
-  async (req, res) => {
+export default function loginPost(req, res) {
+  (async () => {
     try {
       const { email, password } = req.body;
 
@@ -25,5 +25,5 @@ export default function loginPost() {
     } catch (error) {
       res.status(500).json({ message: "Sunucu hatası" });
     }
-  };
+  })();
 }

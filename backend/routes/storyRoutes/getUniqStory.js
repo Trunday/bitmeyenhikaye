@@ -1,7 +1,7 @@
 import Story from "../../models/Story.js";
 
-export default function getUniqStory() {
-  async (req, res) => {
+export default function getUniqStory(req, res) {
+  (async () => {
     try {
       const story = await Story.findById(req.params.id);
       if (!story) return res.status(404).json({ message: "Hikaye bulunamadı" });
@@ -9,5 +9,5 @@ export default function getUniqStory() {
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };
+  })();
 }
