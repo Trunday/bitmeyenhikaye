@@ -1,0 +1,32 @@
+.homepage-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.homepage-title {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.story-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.story-item {
+    margin-bottom: 10px;
+}
+
+.story-link {
+    font-size: 1.2em;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.story-link:hover {
+    color: #0056b3;
+}

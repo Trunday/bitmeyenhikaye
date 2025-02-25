@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./StoryPage.css"; // CSS dosyasını import ediyoruz
 
 interface Choice {
     text: string;
@@ -32,14 +33,14 @@ const StoryPage = () => {
     if (!story) return <p>Hikaye yükleniyor...</p>;
 
     return (
-        <div>
-            <h1>{story.title}</h1>
-            <p>{story.content}</p>
-            <h2>Seçenekler:</h2>
-            <ul>
+        <div className="story-container">
+            <h1 className="story-title">{story.title}</h1>
+            <p className="story-content">{story.content}</p>
+            <h2 className="choices-title">Seçenekler:</h2>
+            <ul className="choices-list">
                 {story.choices.map((choice, index) => (
-                    <li key={index}>
-                        <button onClick={() => handleChoiceClick(choice.nextStoryId)}>
+                    <li key={index} className="choice-item">
+                        <button className="choice-button" onClick={() => handleChoiceClick(choice.nextStoryId)}>
                             {choice.text}
                         </button>
                     </li>

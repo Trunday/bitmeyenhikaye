@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./AdminPage.css"; // CSS dosyasını import ediyoruz
 
 // Hikaye veri tipi
 interface Story {
@@ -87,18 +88,18 @@ const AdminPage = () => {
     };
 
     return (
-        <div>
-            <h1>Admin Paneli</h1>
+        <div className="admin-container">
+            <h1 className="admin-title">Admin Paneli</h1>
 
             {/* Sekme butonları */}
-            <div>
-                <button onClick={() => setTab("add")}>Yeni Hikaye Ekle</button>
-                <button onClick={() => setTab("edit")}>Hikayeleri Düzenle</button>
+            <div className="tab-buttons">
+                <button className={`tab-button ${tab === "add" ? "active" : ""}`} onClick={() => setTab("add")}>Yeni Hikaye Ekle</button>
+                <button className={`tab-button ${tab === "edit" ? "active" : ""}`} onClick={() => setTab("edit")}>Hikayeleri Düzenle</button>
             </div>
 
             {/* Yeni Hikaye Ekleme Bölümü */}
             {tab === "add" && (
-                <div>
+                <div className="add-story">
                     <h2>Yeni Hikaye Ekle</h2>
                     <form onSubmit={handleSubmit}>
                         <input
@@ -116,7 +117,7 @@ const AdminPage = () => {
                         />
                         <h4>Seçenekler:</h4>
                         {choices.map((choice, index) => (
-                            <div key={index}>
+                            <div key={index} className="choice-input">
                                 <input
                                     type="text"
                                     placeholder="Seçenek Metni"
@@ -142,14 +143,14 @@ const AdminPage = () => {
 
             {/* Hikaye Düzenleme Bölümü */}
             {tab === "edit" && (
-                <div>
+                <div className="edit-story">
                     <h2>Hikayeleri Düzenle</h2>
                     {stories.length > 0 ? (
-                        <ul>
+                        <ul className="story-list">
                             {stories.map((story) => (
-                                <li key={story._id}>
+                                <li key={story._id} className="story-item">
                                     {story.title}
-                                    <button onClick={() => handleEditClick(story)}>Düzenle</button>
+                                    <button className="edit-button" onClick={() => handleEditClick(story)}>Düzenle</button>
                                 </li>
                             ))}
                         </ul>
@@ -159,7 +160,7 @@ const AdminPage = () => {
 
                     {/* Düzenleme Formu */}
                     {selectedStory && (
-                        <div>
+                        <div className="update-story">
                             <h3>Hikaye Güncelle</h3>
                             <input
                                 type="text"
