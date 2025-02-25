@@ -21,12 +21,11 @@ mongoose
   .then(() => console.log("MongoDB bağlantısı başarılı"))
   .catch((err) => console.error("MongoDB bağlantı hatası:", err));
 
-// API Test
 app.get("/", (req, res) => {
   res.send("Bitmeyen Hikaye API Çalışıyor!");
 });
-app.use("/api/stories", storyRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/stories", storyRoutes);
+app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Sunucu ${PORT} portunda çalışıyor`));
