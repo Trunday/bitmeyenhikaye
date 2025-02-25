@@ -10,7 +10,7 @@ const HomePage = () => {
     const [stories, setStories] = useState<Story[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/stories")
+        fetch("http://localhost:5000/stories")
             .then((res) => res.json())
             .then((data) => setStories(data))
             .catch((error) => console.error("Hikayeleri çekerken hata:", error));

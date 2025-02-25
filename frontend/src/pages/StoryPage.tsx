@@ -19,7 +19,7 @@ const StoryPage = () => {
     const [story, setStory] = useState<Story | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/api/stories/${id}`)
+        fetch(`http://localhost:5000/stories/${id}`)
             .then((res) => res.json())
             .then((data) => setStory(data))
             .catch((error) => console.error("Hikaye yüklenirken hata:", error));

@@ -23,7 +23,7 @@ const AdminPage = () => {
 
     const fetchStories = async () => {
         try {
-            const response = await fetch("http://localhost:5000/api/stories");
+            const response = await fetch("http://localhost:5000/stories");
             const data = await response.json();
             setStories(data);
         } catch (error) {
@@ -45,7 +45,7 @@ const AdminPage = () => {
         e.preventDefault();
         const newStory = { title, content, choices };
 
-        const response = await fetch("http://localhost:5000/api/stories", {
+        const response = await fetch("http://localhost:5000/stories", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newStory),
@@ -70,7 +70,7 @@ const AdminPage = () => {
     const handleUpdate = async () => {
         if (!selectedStory) return;
 
-        const response = await fetch(`http://localhost:5000/api/stories/${selectedStory._id}`, {
+        const response = await fetch(`http://localhost:5000/stories/${selectedStory._id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(selectedStory),
