@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./HomePage.css"; // CSS dosyasını import ediyoruz
+import Link from "next/link";
+import "@/styles/HomePage.css"; // CSS dosyasını import ediyoruz
 
 interface Story {
     _id: string;
@@ -23,7 +25,7 @@ const HomePage = () => {
             <ul className="story-list">
                 {stories.map((story) => (
                     <li key={story._id} className="story-item">
-                        <Link to={`/story/${story._id}`} className="story-link">{story.title}</Link>
+                        <Link href={`/story/${story._id}`} className="story-link">{story.title}</Link>
                     </li>
                 ))}
             </ul>

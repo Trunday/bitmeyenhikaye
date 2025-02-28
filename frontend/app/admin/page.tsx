@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect } from "react";
-import "./AdminPage.css"; // CSS dosyasını import ediyoruz
+import "@/styles/AdminPage.css"; // CSS dosyasını import ediyoruz
 
 // Hikaye veri tipi
 interface Story {

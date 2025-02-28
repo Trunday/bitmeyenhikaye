@@ -1,6 +1,8 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import "./StoryPage.css"; // CSS dosyasını import ediyoruz
+import { useParams, useRouter } from "next/navigation";
+import "@/styles/StoryPage.css";
 
 interface Choice {
     text: string;
@@ -15,19 +17,28 @@ interface Story {
 }
 
 const StoryPage = () => {
-    const { id } = useParams<{ id: string }>();
-    const navigate = useNavigate();
+    const router = useRouter();
+    const params = useParams(); // useParams ile ID'yi al
     const [story, setStory] = useState<Story | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/stories/${id}`)
-            .then((res) => res.json())
-            .then((data) => setStory(data))
-            .catch((error) => console.error("Hikaye yüklenirken hata:", error));
-    }, [id]);
+        if (!params || !params.id) return; // Eğer params henüz yüklenmediyse bekle
+
+        const fetchStory = async () => {
+            try {
+                const res = await fetch(`http://localhost:5000/stories/${params.id}`);
+                const data = await res.json();
+                setStory(data);
+            } catch (error) {
+                console.error("Hikaye yüklenirken hata:", error);
+            }
+        };
+
+        fetchStory();
+    }, [params]);
 
     const handleChoiceClick = (nextStoryId: string) => {
-        navigate(`/story/${nextStoryId}`);
+        router.push(`/story/${nextStoryId}`);
     };
 
     if (!story) return <p>Hikaye yükleniyor...</p>;
