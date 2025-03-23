@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import "@/styles/AdminPage.css"; // CSS dosyasını import ediyoruz
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 // Hikaye veri tipi
 interface Story {
@@ -23,6 +25,15 @@ const AdminPage = () => {
     useEffect(() => {
         fetchStories();
     }, []);
+
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    if (status === "loading") return <p>Yükleniyor...</p>;
+    if (!session) {
+        router.push("/auth/login");
+        return null;
+    }
 
     const fetchStories = async () => {
         try {
